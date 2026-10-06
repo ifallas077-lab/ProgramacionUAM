@@ -9,8 +9,9 @@ package veterinaria;
  * @author Isaac Fallas
  */
 public class Mascota {
-    private String nombre; 
-    private String especie; 
+
+    private String nombre;
+    private String especie;
     private int edad;
     private double peso;
     private Cliente duenio;
@@ -30,8 +31,6 @@ public class Mascota {
         this.duenio = duenio;
     }
 
-    
-    
     public String getNombre() {
         return nombre;
     }
@@ -63,13 +62,16 @@ public class Mascota {
     public void setPeso(double peso) {
         this.peso = peso;
     }
-    
-    public void mostrarResumen(){
-        System.out.println("Mascota: "+ nombre);
-        System.out.println("Especie: "+ especie);
-        System.out.println("Edad: "+ edad);
+
+    public void mostrarResumen() {
+        System.out.println("Mascota: " + nombre);
+        System.out.println("Especie: " + especie);
+        System.out.println("Edad: " + edad);
         System.out.printf("Peso: %.2f kg%n", peso);
-        
+        if (this.duenio != null) {
+            System.out.println("Dueño: " + this.duenio.getNombre());
+        }
+
     }
 
     public Cliente getDuenio() {

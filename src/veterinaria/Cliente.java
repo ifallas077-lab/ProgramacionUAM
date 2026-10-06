@@ -8,32 +8,27 @@ package veterinaria;
  *
  * @author Isaac Fallas
  */
-public class Cliente {
-    private String identificacion; 
-    private String nombre;
+public class Cliente extends Persona {
+
+    private String identificacion;
     private String telefono;
 
     public Cliente(String identificacion, String nombre, String telefono) {
+        super(nombre);
         this.identificacion = identificacion;
-        this.nombre = nombre;
         this.telefono = telefono;
     }
-    
 
     public String getIdentificacion() {
         return identificacion;
     }
 
     public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (identificacion == null || identificacion.trim().equals("")) {
+            System.out.println("La identificacion no es valida");
+        } else {
+            this.identificacion = identificacion;
+        }
     }
 
     public String getTelefono() {
@@ -41,8 +36,11 @@ public class Cliente {
     }
 
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        if (telefono == null || telefono.trim().equals("")) {
+            System.out.println("El telefono no es valido");
+        } else {
+            this.telefono = telefono;
+        }
     }
-    
-    
+
 }
