@@ -8,7 +8,7 @@ package veterinaria;
  *
  * @author Isaac Fallas
  */
-public class Consulta implements Resumible {
+public class Consulta implements Resumible, Cloneable {
 
     private String fecha;
     private String motivo;
@@ -101,5 +101,14 @@ public class Consulta implements Resumible {
 
         System.out.printf(
                 "Costo: ¢%.2f%n", costo);
+    }
+
+    @Override
+    public Consulta clone() {
+        try {
+            return (Consulta) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            return null;
+        }
     }
 }

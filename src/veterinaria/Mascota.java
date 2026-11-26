@@ -8,7 +8,7 @@ package veterinaria;
  *
  * @author Isaac Fallas
  */
-public class Mascota implements Resumible {
+public class Mascota implements Resumible, Comparable<Mascota>, Cloneable {
 
     private String nombre;
     private String especie;
@@ -81,5 +81,38 @@ public class Mascota implements Resumible {
 
     public void setDuenio(Cliente duenio) {
         this.duenio = duenio;
+    }
+
+    @Override
+    public int compareTo(Mascota otraMascota) {
+        return Double.compare(this.peso, otraMascota.getPeso());
+
+    }
+
+    @Override
+    public Mascota clone() {
+        try {
+            return (Mascota) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            return null;
+        }
+    }
+
+    public Mascota copiaProfunda() {
+
+        Cliente copiaDuenio = null;
+        if (this.duenio != null) {
+            copiaDuenio = new Cliente(
+                    this.duenio.getIdentificacion(),
+                    this.duenio.getNombre(),
+                    this.duenio.getTelefono()
+            );
+        }
+        return new Mascota(
+        this.nombre,
+        this.especie,
+        this.edad,
+        this.peso,
+        copiaDuenio);
     }
 }

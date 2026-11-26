@@ -5,6 +5,8 @@
 package veterinaria;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
  *
@@ -63,7 +65,7 @@ public class Principal {
         ArrayList<Mascota> mascotas = new ArrayList<Mascota>();
         mascotas.add(mascota1);
         mascotas.add(mascota2);
-        mascotas.add(new Mascota("Luffy", "Perro", 1, 1));
+        mascotas.add(new Mascota("Luffy", "Perro", 1, 30));
 
         if (!mascotas.isEmpty()) {
             Mascota primera = mascotas.get(0);
@@ -114,5 +116,126 @@ public class Principal {
             System.out.println("==============");
         }
 
+        System.out.println("==== Repositorios ====");
+
+        Repositorio<Mascota> repoMascotas = new Repositorio<Mascota>();
+        Repositorio<Consulta> repoConsultas = new Repositorio<Consulta>();
+
+        repoMascotas.agregar(mascota1);
+        repoMascotas.agregar(mascota2);
+        repoMascotas.agregar(new Mascota("zoro", "perro", 1, 1));
+        repoConsultas.agregar(consulta1);
+
+        System.out.println(repoMascotas.contar());
+        System.out.println(repoConsultas.contar());
+
+        repoMascotas.listar();
+        Utilidades.mostrarTodos(mascotas);
+        Utilidades.mostrarTodos(repoMascotas.obtenerTodos());
+
+        System.out.println("Comparando mascota 1 y 2");
+        int resultadoComparacion = mascota1.compareTo(mascota2);
+        if (resultadoComparacion > 0) {
+            System.out.println("Mascota1 pesa mas");
+        } else if (resultadoComparacion < 0) {
+            System.out.println("Mascota2 pesa mas");
+        } else {
+            System.out.println("Mascotas pesan igual");
+        }
+        
+        System.out.println("Mascota con mayor peso");
+        Mascota mayorPeso = Utilidades.obtenerMayor(mascotas);
+        if(mayorPeso != null) {
+            mayorPeso.mostrarResumen();
+        }
+        
+        System.out.println("Listas Ordenadas");
+        System.out.println("======MASCOTAS ORDENADAS POR PESO======");
+        Collections.sort(mascotas);
+        Utilidades.mostrarTodos(mascotas);
+        System.out.println("=====MASCOTAS ORDENADAS POR NOMBRE=====");
+        Collections.sort(mascotas, new ComparadorMascotaPorNombre());
+        Utilidades.mostrarTodos(mascotas);
+        
+        System.out.println("*****Iterador Mascotas*******");
+        Iterator<Mascota> iterador = repoMascotas.obtenerTodos().iterator();
+        
+        while(iterador.hasNext()){
+            Mascota mascota = iterador.next();
+            mascota.mostrarResumen();
+        }
+        
+        System.out.println("*****Clones*****");
+        Mascota copiaMascota = mascota1.clone();
+        Mascota linkMascota = mascota1;
+        
+        System.out.println("Misma Mascota = "+ (linkMascota == mascota1)); // true 
+        System.out.println("Misma Mascota = "+ (copiaMascota == mascota1)); // false 
+        
+        System.out.println("Mismo Duenio = " +
+                (copiaMascota.getDuenio() == mascota1.getDuenio()));// true 
+        
+        Mascota copiaMascota2 = mascota1.copiaProfunda();
+        System.out.println("Mismo Duenio = " +
+                (copiaMascota.getDuenio() == mascota1.getDuenio()));//false
+        
+        System.out.println("MAscota original: ");
+        mascota1.mostrarResumen();
+        
+        System.out.println("Mascota clonada: ");
+        copiaMascota.mostrarResumen();
+        
+        System.out.println("Mascota clonada2: ");
+        copiaMascota2.mostrarResumen();
+        
+        System.out.println("===Clone de Consulta===");
+        Consulta copiaConsulta = consulta1.clone();
+        System.out.println("Diferentes Consultas: " +
+                (copiaConsulta == consulta1));//false
+        System.out.println("Consulta1: ");
+        consulta1.mostrarResumen();
+        System.out.println("Copia consulta: ");
+        copiaConsulta.mostrarResumen();
+        
+        //CRUD es igual a: 
+        //CREATE 
+        //READ
+        //UPDATE
+        //DELETE
+        
+        System.out.println("==CRUD en memoria repositorio==");
+        copiaMascota2.setNombre("Naruto");
+        repoMascotas.agregar(copiaMascota2);
+        System.out.println(" == todas las mascotas del repositorio === ");
+        repoMascotas.listar();
+        System.out.println("=== Obtener y Copiar Mascota de repo ===");
+        Mascota copiaMascotaRepo = repoMascotas.obtener(3).copiaProfunda();
+        if(copiaMascotaRepo != null){
+            System.out.println("Los datos de la mascota encontrada son: ");
+            copiaMascotaRepo.mostrarResumen();
+            System.out.println("actualizacion de mascota en repo");
+            copiaMascotaRepo.setNombre("Goku SS");
+            if(repoMascotas.actualizar(3, copiaMascotaRepo)){
+                System.out.println("Mascota actualizada correctamente");
+            }else {
+                System.out.println("No se pudo actualizar la mascota");
+            }
+            
+        }else{
+            System.out.println("Mascota no encontrada");
+        }
+        System.out.println("===Todas las mascotas del repositorio==");
+        repoMascotas.listar();
+        
+        System.out.println("=== ELiminar mascota===");
+        boolean elimino = repoMascotas.eliminar(4);
+        if(elimino){
+            System.out.println("Mascota Eliminada correctamente");
+        }else {
+            System.out.println("No se pudo eliminar la mascota");
+        }
+        System.out.println("===Todas las mascotas del repositorio==");
+        repoMascotas.listar();
+        
     }
 }
